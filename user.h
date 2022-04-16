@@ -23,7 +23,7 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
-int cps(void);
+int cps(int option);
 int chpr(int pid, int priority);
 
 // ulib.c

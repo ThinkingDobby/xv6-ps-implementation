@@ -93,7 +93,11 @@ sys_uptime(void)
 int
 sys_cps(void)
 {
-  return cps();
+  int opt;
+  if (argint(0, &pid) < 0)
+	  return -1;
+
+  return cps(opt);
 }
 
 int

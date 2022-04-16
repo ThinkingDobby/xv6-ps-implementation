@@ -535,7 +535,7 @@ procdump(void)
 }
 
 int
-cps()
+cps(int option)
 {
 struct proc *p;
 //Enables interrupts on this processor.
@@ -543,15 +543,30 @@ sti();
 
 //Loop over process table looking for process with pid.
 acquire(&ptable.lock);
-cprintf("name \t pid \t state \t priority \n");
-for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-  if(p->state == SLEEPING)
-	  cprintf("%s \t %d \t SLEEPING \t %d \n ", p->name,p->pid,p->priority);
-	else if(p->state == RUNNING)
- 	  cprintf("%s \t %d \t RUNNING \t %d \n ", p->name,p->pid,p->priority);
-	else if(p->state == RUNNABLE)
- 	  cprintf("%s \t %d \t RUNNABLE \t %d \n ", p->name,p->pid,p->priority);
+if (option == 0) {
+	cprintf("name \t pid \t state \t priority \n");
+} else if (option == 1) {
+	cprintf("name \t pid \t state \t priority \t size \n");
 }
+
+for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+	if(p->state == SLEEPING)
+		if (option == 0) 
+			cprintf("%s \t %d \t SLEEPING \t %d \n ", p->name,p->pid,p->priority);
+		else if (option == 1)
+			cprintf("%s \t %d \t SLEEPING \t %d \t %d \n ", p->name,p->pid,p->priority, p->sz);
+	else if(p->state == RUNNING)
+		if (option == 0)
+			cprintf("%s \t %d \t RUNNING \t %d \n ", p->name,p->pid,p->priority);
+		else if (option == 1)
+			cprintf("%s \t %d \t RUNNING \t %d \t %d \n ", p->name,p->pid,p->priority, p->sz);
+	else if(p->state == RUNNABLE)
+		if (option == 0)
+	 	 	cprintf("%s \t %d \t RUNNABLE \t %d \n ", p->name,p->pid,p->priority);
+		else if (option == 1)	
+			cprintf("%s \t %d \t RUNNING \t %d \n %d \n", p->name,p->pid,p->priority, p->sz);
+}
+
 release(&ptable.lock);
 return 22;
 }
