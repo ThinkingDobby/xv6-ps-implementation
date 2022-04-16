@@ -94,7 +94,7 @@ int
 sys_cps(void)
 {
   int opt;
-  if (argint(0, &pid) < 0)
+  if (argint(0, &opt) < 0)
 	  return -1;
 
   return cps(opt);
