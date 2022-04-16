@@ -6,18 +6,18 @@
 int main(int argc, char* argv[]){
   if (argc == 1) {
 	  cps(0);
-	  exit(1);
+	  exit();
   } else if (argc == 2) {
-	  if (argv[1] == 's' || argv[1] == 'S') {
-		  cps(0);
-		  exit(1);
+	  if (!strcmp(argv[1], "s") || !strcmp(argv[1], "S")) {
+		  cps(1);
+		  exit();
 	  } else {
-		  printf("Usage: ps [s] \n");
-		  exit(1);
+		  printf(2, "Usage: ps [s] \n");
+		  exit();
 	  }
   } else {
-	  printf("Usage: ps [s] \n");
-	  exit(1);
+	  printf(2, "Usage: ps [s] \n");
+	  exit();
   }
 
   cps(0);
